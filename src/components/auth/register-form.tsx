@@ -5,16 +5,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { registerAction } from "@/actions/userActions";
 import { SubmitButton } from "../common/SubmitBtn";
 import { useToast } from "@/hooks/use-toast";
+import VerifyToken from "./VerifyToken";
+import type { IState } from "@/types";
 
-interface IState {
-  status: number;
-  message: string;
-  errors?: any;
-}
 export function RegiserForm({
   className,
   ...props
@@ -25,15 +22,18 @@ export function RegiserForm({
     message: "",
     errors: {},
   };
-
   const [state, formAction] = useActionState(registerAction, initState);
   const { toast } = useToast();
+
+  const [isActive, setIsActive] = useState(false);
+  const [email, setEmail] = useState<null | string>(null);
   useEffect(() => {
     if (state.status === 201) {
       toast({
         title: "Success",
         description: state.message,
       });
+      setIsActive(true);
     }
     if (state.status >= 400) {
       toast({
@@ -41,8 +41,10 @@ export function RegiserForm({
         title: "Error",
         description: state.message,
       });
+      setIsActive(false);
     }
   }, [state]);
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden">
@@ -78,6 +80,7 @@ export function RegiserForm({
                   type="email"
                   placeholder="m@example.com"
                   required
+                  onChange={(e) => setEmail(e.target.value)}
                 />
                 <span className="text-sm text-red-500">
                   {state.errors?.email}
@@ -125,6 +128,11 @@ export function RegiserForm({
         By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
         and <a href="#">Privacy Policy</a>.
       </div>
+      <VerifyToken
+        isActive={isActive}
+        email={email}
+        setIsActive={setIsActive}
+      />
     </div>
   );
 }
