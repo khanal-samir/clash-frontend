@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/input-otp";
 import { useActionState, useEffect } from "react";
 import type { IState, IToken } from "@/types";
-import { verifyEmail } from "@/actions/userActions";
+import { verifyEmail } from "@/app/actions/userActions";
 import { Input } from "../ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";

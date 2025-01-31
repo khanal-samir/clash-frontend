@@ -20,9 +20,7 @@ function HeroSection() {
       </div>
 
       <Link href="/login">
-        <Button className="mt-4 bg-blue-700 hover:bg-blue-500">
-          Get started
-        </Button>
+        <Button className="mt-4">Get started</Button>
       </Link>
     </div>
   );

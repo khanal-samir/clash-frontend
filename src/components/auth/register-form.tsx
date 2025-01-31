@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { useActionState, useEffect, useState } from "react";
-import { registerAction } from "@/actions/userActions";
+import { registerAction } from "@/app/actions/userActions";
 import { SubmitButton } from "../common/SubmitBtn";
 import { useToast } from "@/hooks/use-toast";
 import VerifyToken from "./VerifyToken";
