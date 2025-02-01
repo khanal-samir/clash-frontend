@@ -4,38 +4,30 @@ import Image from "next/image";
 import type { IState } from "@/types";
 import { useToast } from "@/hooks/use-toast";
 import { useActionState, useEffect } from "react";
-import { checkLogin } from "@/app/actions/userActions";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { SubmitButton } from "../common/SubmitBtn";
-import { signIn } from "next-auth/react";
-
-export function LoginForm({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+import { useRouter, useSearchParams } from "next/navigation";
+import { changePassword } from "@/app/actions/userActions";
+const ChangePass = () => {
+  const sParms = useSearchParams();
   const initState: IState = {
-    status: 0,
     message: "",
+    status: 0,
     errors: {},
-    data: {},
   };
-  const [state, formAction] = useActionState(checkLogin, initState);
   const { toast } = useToast();
+  const [state, formAction] = useActionState(changePassword, initState);
+  const router = useRouter();
   useEffect(() => {
     if (state.status === 200) {
       toast({
         title: "Success",
         description: state.message,
       });
-      signIn("credentials", {
-        email: state.data?.email,
-        password: state.data?.password,
-        redirect: true,
-        callbackUrl: "/dashboard",
-      });
+      router.push("/login");
     }
     if (state.status >= 400) {
       toast({
@@ -45,47 +37,53 @@ export function LoginForm({
       });
     }
   }, [state]);
-
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
+    <div className={cn("flex flex-col gap-6")}>
       <Card className="overflow-hidden">
         <CardContent className="grid p-0 md:grid-cols-2">
           <form className="p-6 md:p-8" action={formAction}>
+            <Input
+              name="token"
+              type="hidden"
+              value={sParms.get("token") ?? ""}
+              readOnly
+            />
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center text-center">
-                <h1 className="text-2xl font-bold">Welcome back</h1>
+                <h1 className="text-2xl font-bold">Password Reset</h1>
                 <p className="text-balance text-muted-foreground">
-                  Login to your Clash account
+                  Enter new password for your clash account.
                 </p>
               </div>
-
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
                   id="email"
                   type="email"
                   name="email"
-                  placeholder="m@example.com"
+                  value={sParms.get("email") ?? ""}
                   required
+                  readOnly
                 />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="password">Password</Label>
+                <Input id="password" type="password" name="password" required />
                 <span className="text-sm text-red-500">
-                  {state.errors?.email}
+                  {state.errors?.password}
                 </span>
               </div>
 
               <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
-                  <Link
-                    href="/forgot-password"
-                    className="ml-auto text-sm underline-offset-2 hover:underline"
-                  >
-                    Forgot your password?
-                  </Link>
-                </div>
-                <Input id="password" type="password" name="password" required />
+                <Label htmlFor="confirmPassword">Confirm Password</Label>
+                <Input
+                  id="confirmPassword"
+                  type="password"
+                  name="confirmPassword"
+                  required
+                />
                 <span className="text-sm text-red-500">
-                  {state.errors?.password}
+                  {state.errors?.confirmPassword}
                 </span>
               </div>
 
@@ -110,4 +108,6 @@ export function LoginForm({
       </div>
     </div>
   );
-}
+};
+
+export default ChangePass;

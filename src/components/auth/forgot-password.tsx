@@ -4,37 +4,26 @@ import Image from "next/image";
 import type { IState } from "@/types";
 import { useToast } from "@/hooks/use-toast";
 import { useActionState, useEffect } from "react";
-import { checkLogin } from "@/app/actions/userActions";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { SubmitButton } from "../common/SubmitBtn";
-import { signIn } from "next-auth/react";
-
-export function LoginForm({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+import { forgotPassword } from "@/app/actions/userActions";
+const ForgotPassword = () => {
   const initState: IState = {
-    status: 0,
     message: "",
     errors: {},
-    data: {},
+    status: 0,
   };
-  const [state, formAction] = useActionState(checkLogin, initState);
   const { toast } = useToast();
+  const [state, formAction] = useActionState(forgotPassword, initState);
+
   useEffect(() => {
     if (state.status === 200) {
       toast({
         title: "Success",
         description: state.message,
-      });
-      signIn("credentials", {
-        email: state.data?.email,
-        password: state.data?.password,
-        redirect: true,
-        callbackUrl: "/dashboard",
       });
     }
     if (state.status >= 400) {
@@ -45,47 +34,25 @@ export function LoginForm({
       });
     }
   }, [state]);
-
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
+    <div className={cn("flex flex-col gap-6")}>
       <Card className="overflow-hidden">
         <CardContent className="grid p-0 md:grid-cols-2">
           <form className="p-6 md:p-8" action={formAction}>
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center text-center">
-                <h1 className="text-2xl font-bold">Welcome back</h1>
+                <h1 className="text-2xl font-bold">Forgot Password?</h1>
                 <p className="text-balance text-muted-foreground">
-                  Login to your Clash account
+                  Don&apos;t worry. <br /> Enter your email to get password
+                  reset link.
                 </p>
               </div>
 
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  name="email"
-                  placeholder="m@example.com"
-                  required
-                />
+                <Input id="email" type="email" name="email" required />
                 <span className="text-sm text-red-500">
                   {state.errors?.email}
-                </span>
-              </div>
-
-              <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
-                  <Link
-                    href="/forgot-password"
-                    className="ml-auto text-sm underline-offset-2 hover:underline"
-                  >
-                    Forgot your password?
-                  </Link>
-                </div>
-                <Input id="password" type="password" name="password" required />
-                <span className="text-sm text-red-500">
-                  {state.errors?.password}
                 </span>
               </div>
 
@@ -110,4 +77,6 @@ export function LoginForm({
       </div>
     </div>
   );
-}
+};
+
+export default ForgotPassword;
