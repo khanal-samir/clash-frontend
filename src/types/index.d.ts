@@ -25,3 +25,15 @@ export type CustomUser = {
   email?: string | null;
   token?: string | null;
 };
+
+type ClashForm = {
+  title?: string;
+  description?: string;
+};
+
+type ClashFormError = {
+  title?: string;
+  description?: string;
+  expired_at?: string;
+  image?: string;
+};
