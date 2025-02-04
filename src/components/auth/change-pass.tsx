@@ -27,7 +27,9 @@ const ChangePass = () => {
         title: "Success",
         description: state.message,
       });
-      router.push("/login");
+      setTimeout(() => {
+        router.push("/login");
+      }, 1000);
     }
     if (state.status >= 400) {
       toast({
