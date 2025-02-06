@@ -37,3 +37,19 @@ type ClashFormError = {
   expired_at?: string;
   image?: string;
 };
+
+type ClashType = {
+  id: number;
+  user_id: number;
+  title: string;
+  description: string;
+  image: string;
+  created_at: string;
+  expire_at: string;
+  user: {
+    name: string;
+    email: string;
+  };
+  ClashItem?: Array<ClashItemType>;
+  ClashComments?: Array<ClashCommentType>;
+};
