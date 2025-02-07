@@ -7,7 +7,7 @@ export default function NotFound() {
     <div className="flex justify-center items-center flex-col h-screen">
       <Image src="/404.svg" width={500} height={400} alt="404_img" />
       <Link href="/">
-        <Button className=" hover:bg-blue-500 bg-blue-700">Return Home</Button>
+        <Button>Return Home</Button>
       </Link>
     </div>
   );

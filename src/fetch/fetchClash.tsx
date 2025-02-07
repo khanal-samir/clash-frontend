@@ -26,7 +26,7 @@ export async function fetchClashes(token: string) {
   return [];
 }
 
-export async function fetchClash(id: number) {
+export async function fetchClash(id: string) {
   const res = await fetch(`${CLASH_URL}/${id}`, {
     cache: "no-cache",
   });

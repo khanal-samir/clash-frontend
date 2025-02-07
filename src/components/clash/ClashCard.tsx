@@ -14,6 +14,7 @@ import Image from "next/image";
 import { getImageUrl } from "@/lib/utils";
 import { Button } from "../ui/button";
 import ClashCardMenu from "./ClashCardMenu";
+import Link from "next/link";
 
 const ClashCard = ({ clash, user }: { clash: ClashType; user: CustomUser }) => {
   return (
@@ -42,7 +43,10 @@ const ClashCard = ({ clash, user }: { clash: ClashType; user: CustomUser }) => {
           </p>
         </CardContent>
         <CardFooter>
-          <Button>Add</Button>
+          <Link href={`/clash/items/${clash.id}`}>
+            {" "}
+            <Button>Items</Button>
+          </Link>
         </CardFooter>
       </Card>
     </>

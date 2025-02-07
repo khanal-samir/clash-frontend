@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { SubmitButton } from "../common/SubmitBtn";
-import { forgotPassword } from "@/app/actions/userActions";
+import { forgotPassword } from "@/actions/userActions";
 const ForgotPassword = () => {
   const initState: IState = {
     message: "",

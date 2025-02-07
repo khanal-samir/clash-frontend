@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import axios from "axios";
 import { CLASH_URL } from "@/lib/apiEndPoints";
-import { clearCache } from "@/app/actions/commonAction";
+import { clearCache } from "@/actions/commonAction";
 
 import { useToast } from "@/hooks/use-toast";
 

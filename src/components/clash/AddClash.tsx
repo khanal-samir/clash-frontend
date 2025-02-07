@@ -24,7 +24,7 @@ import { CalendarIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import axios, { AxiosError } from "axios";
 import { CLASH_URL } from "@/lib/apiEndPoints";
-import { clearCache } from "@/app/actions/commonAction";
+import { clearCache } from "@/actions/commonAction";
 
 const AddClash = ({ user }: { user: CustomUser }) => {
   const [open, setOpen] = useState(false);

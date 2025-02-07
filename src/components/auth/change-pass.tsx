@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { SubmitButton } from "../common/SubmitBtn";
 import { useRouter, useSearchParams } from "next/navigation";
-import { changePassword } from "@/app/actions/userActions";
+import { changePassword } from "@/actions/userActions";
 const ChangePass = () => {
   const sParms = useSearchParams();
   const initState: IState = {

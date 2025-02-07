@@ -1,5 +1,5 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/options";
-import { fetchClashes } from "@/app/fetch/fetchClash";
+import { fetchClashes } from "@/fetch/fetchClash";
 import Navbar from "@/components/base/Navbar";
 import AddClash from "@/components/clash/AddClash";
 import ClashCard from "@/components/clash/ClashCard";

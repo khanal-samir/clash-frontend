@@ -4,7 +4,7 @@ import Image from "next/image";
 import type { IState } from "@/types";
 import { useToast } from "@/hooks/use-toast";
 import { useActionState, useEffect } from "react";
-import { checkLogin } from "@/app/actions/userActions";
+import { checkLogin } from "@/actions/userActions";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
