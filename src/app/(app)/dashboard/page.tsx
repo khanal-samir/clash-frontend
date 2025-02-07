@@ -23,7 +23,11 @@ const page = async () => {
       <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
         {clashes.length &&
           clashes.map((clash, index) => (
-            <ClashCard clash={clash} key={index} />
+            <ClashCard
+              clash={clash}
+              key={index}
+              user={session?.user as CustomUser}
+            />
           ))}
       </div>
     </MotionWrapper>

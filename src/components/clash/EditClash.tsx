@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -18,7 +18,7 @@ import { format } from "date-fns";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { ClashForm, ClashFormError, CustomUser } from "@/types";
+import { ClashForm, ClashFormError, ClashType, CustomUser } from "@/types";
 import { Textarea } from "../ui/textarea";
 import { CalendarIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -26,11 +26,23 @@ import axios, { AxiosError } from "axios";
 import { CLASH_URL } from "@/lib/apiEndPoints";
 import { clearCache } from "@/app/actions/commonAction";
 
-const AddClash = ({ user }: { user: CustomUser }) => {
-  const [open, setOpen] = useState(false);
-  const [clashData, setClashData] = useState<ClashForm>({});
-  const [date, setDate] = React.useState<Date | null>();
-  const [image, setImage] = useState<File | null>(null);
+const EditClash = ({
+  user,
+  clash,
+  open,
+  setOpen,
+}: {
+  user: CustomUser;
+  clash: ClashType;
+  open: boolean;
+  setOpen: Dispatch<SetStateAction<boolean>>;
+}) => {
+  const [clashData, setClashData] = useState<ClashForm>({
+    title: clash.title,
+    description: clash.description,
+  });
+  const [date, setDate] = React.useState<Date | null>(null);
+  const [image, setImage] = useState<File | null>(null); // preview
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const [errors, setErrors] = useState<ClashFormError>({});
@@ -51,20 +63,20 @@ const AddClash = ({ user }: { user: CustomUser }) => {
       formData.append("expired_at", date?.toISOString() ?? "");
       if (image) formData.append("image", image);
 
-      const { data } = await axios.post(CLASH_URL, formData, {
+      const { data } = await axios.put(`${CLASH_URL}/${clash.id}`, formData, {
         headers: {
           Authorization: user.token,
         },
       });
-      clearCache("dashboard");
       setClashData({});
       setDate(null);
       setImage(null);
       setOpen(false);
       toast({
         title: "Success",
-        description: data.message ?? "Clash upload successfull.",
+        description: data.message ?? "Clash updated successfull.",
       });
+      clearCache("dashboard");
     } catch (error) {
       console.log("The error is ", error);
       if (error instanceof AxiosError) {
@@ -90,12 +102,9 @@ const AddClash = ({ user }: { user: CustomUser }) => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button>Add Clash</Button>
-      </DialogTrigger>
       <DialogContent onInteractOutside={(e) => e.preventDefault()}>
         <DialogHeader>
-          <DialogTitle>Create Clash</DialogTitle>
+          <DialogTitle>Edit Clash</DialogTitle>
         </DialogHeader>
         <form className="p-6 md:p-8 space-y-2" onSubmit={handleSubmit}>
           <div className="grid gap-2">
@@ -149,14 +158,14 @@ const AddClash = ({ user }: { user: CustomUser }) => {
                   )}
                 >
                   <CalendarIcon />
-                  {date ? format(date, "PPP") : <span>Pick a date</span>}
+                  {date ? date.toDateString() : <span>Pick a date</span>}
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0" align="start">
                 <Calendar
                   mode="single"
                   selected={date ?? new Date(Date.now())}
-                  onSelect={setDate}
+                  onSelect={(date) => setDate(date!)}
                   initialFocus
                 />
               </PopoverContent>
@@ -173,4 +182,4 @@ const AddClash = ({ user }: { user: CustomUser }) => {
   );
 };
 
-export default AddClash;
+export default EditClash;
