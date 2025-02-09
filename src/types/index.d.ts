@@ -53,3 +53,7 @@ type ClashType = {
   ClashItem?: Array<ClashItemType>;
   ClashComments?: Array<ClashCommentType>;
 };
+
+type ClashItemType = {
+  image: File | null;
+};

@@ -10,3 +10,4 @@ export const RESET_PASSWORD = `${BASE_URL}/user/reset-password`;
 
 //clash routes
 export const CLASH_URL = `${BASE_URL}/clash`;
+export const CLASH_ITEMS_URL = `${CLASH_URL}/items`;
