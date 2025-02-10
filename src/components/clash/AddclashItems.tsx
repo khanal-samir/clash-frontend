@@ -79,7 +79,7 @@ export default function AddClashItems({
           description: "Please upload both images.",
         });
       }
-    } catch (error: any) {
+    } catch (error) {
       setLoading(false);
       if (error instanceof AxiosError) {
         if (error.response?.status === 422) {

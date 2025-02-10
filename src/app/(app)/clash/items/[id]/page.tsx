@@ -5,6 +5,7 @@ import AddclashItems from "@/components/clash/AddclashItems";
 import React from "react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/options";
+import ViewClashItems from "@/components/clash/ViewClashItems";
 
 export default async function clashItems({
   params,
@@ -22,8 +23,14 @@ export default async function clashItems({
         <h1 className="text-2xl lg:text-4xl font-extrabold">{clash?.title}</h1>
         <p className="text-lg">{clash?.description}</p>
       </div>
-      {session && session.user && (
-        <AddclashItems clashId={id} token={session.user.token!} />
+
+      {clash?.ClashItem && clash.ClashItem.length > 0 ? (
+        <ViewClashItems clash={clash} />
+      ) : (
+        <AddclashItems
+          token={session?.user?.token ?? ""}
+          clashId={params?.id.toString()}
+        />
       )}
     </div>
   );

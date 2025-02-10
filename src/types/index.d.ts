@@ -53,7 +53,16 @@ type ClashType = {
   ClashItem?: Array<ClashItemType>;
   ClashComments?: Array<ClashCommentType>;
 };
-
+type ClashItemType = {
+  id: string;
+  image: string;
+  count: number;
+};
+type ClashCommentType = {
+  id: string;
+  comment: string;
+  created_at: string;
+};
 type ClashItemType = {
   image: File | null;
 };
