@@ -8,7 +8,7 @@ const nextConfig = {
       },
     ],
   },
-  reactStrictMode: false,
+  reactStrictMode: false, // renders socket events twice
 };
 
 export default nextConfig;
